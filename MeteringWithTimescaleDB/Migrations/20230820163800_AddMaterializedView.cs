@@ -23,9 +23,9 @@ GROUP BY ""ContextIdentifier"", time_bucket(INTERVAL '1 minute', ""Time"");
 
 CREATE INDEX ix_context_identifier_time_minutely ON ""ApiUsageSummaryMinutely"" (""ContextIdentifier"", ""Time"" DESC);
 
-SELECT add_retention_policy('""ApiUsages""', INTERVAL '5 minutes');
+SELECT add_retention_policy('""ApiUsages""', INTERVAL '1 day');
 ";
-            migrationBuilder.Sql(materializedView);
+            migrationBuilder.Sql(materializedView, suppressTransaction: true);
         }
 
         /// <inheritdoc />
@@ -35,7 +35,7 @@ SELECT add_retention_policy('""ApiUsages""', INTERVAL '5 minutes');
                 "SELECT remove_retention_policy('\"ApiUsages\"', if_exists => TRUE);" +
                 "DROP INDEX IF EXISTS _timescaledb_internal.ix_context_identifier_time_minutely;" +
                 "DROP MATERIALIZED VIEW IF EXISTS \"ApiUsageSummaryMinutely\";"
-            );
+            , suppressTransaction: true);
         }
     }
 }

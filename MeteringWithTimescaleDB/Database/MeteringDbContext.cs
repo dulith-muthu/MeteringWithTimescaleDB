@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MeteringTest.Database
 {
-    public class MeteringDbContext: DbContext
+    public class MeteringDbContext : DbContext
     {
         public const string ConnectionStringName = "MeteringDb";
 

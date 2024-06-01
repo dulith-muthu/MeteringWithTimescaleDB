@@ -22,14 +22,13 @@ Feel free to explore and adapt the concepts presented in this repository to your
     ```
     > Note: you can connect and test the Database using **Azure Data Studio**: [microsoft-doc](https://learn.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio?view=sql-server-ver16&tabs=redhat-install%2Credhat-uninstall)
 
-2.  Create tables  
-    Unfortunately `dotnet ef database update` doesn't work due to materialize view creation not being a transactional query.
-    Until I find a solution, Create tables by:  
-    **Running the sql script:** `\Migrations\Raw\Up.sql`
-    > Note: You can you **Azure Data Studio** for this
+2.  Create tables: Run 
+    ```sh
+    dotnet ef database update
+    ```
 
 3.  Now Build and **Run the application**. Sample data will be added in the background (wait a few minutes)  
-    *  View Raw data
+    -  View Raw data
         ```sql
         SELECT  "Time"
                 ,"CpuTime"
@@ -37,7 +36,7 @@ Feel free to explore and adapt the concepts presented in this repository to your
         WHERE "ContextIdentifier" = 'Cust2'
         ORDER BY "Time" DESC;
         ```
-    *  View Aggregated data
+    -  View Aggregated data
         ```sql
         SELECT  "Time"
                 ,"CpuTime"
@@ -47,7 +46,7 @@ Feel free to explore and adapt the concepts presented in this repository to your
         ```
 
 ### Charts
-*   Raw Data of `Cust2`
+-   Raw Data of `Cust2`
     ![Alt text](img/raw-data.png)
-*   Aggregated data of `Cust2`
+-   Aggregated data of `Cust2`
     ![Alt text](img/aggregated-data.png)

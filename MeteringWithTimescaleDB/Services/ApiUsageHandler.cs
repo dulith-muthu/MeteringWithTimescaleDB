@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MeteringTest.Services
 {
-    public interface IApiUsageHandler {
+    public interface IApiUsageHandler
+    {
         Task<ApiUsageReport> GetUsage(DateTime from, DateTime to, string cust, CancellationToken cancellationToken);
     }
 
@@ -12,7 +13,8 @@ namespace MeteringTest.Services
     {
         MeteringDbContext _db;
 
-        public ApiUsageHandler(MeteringDbContext db) {
+        public ApiUsageHandler(MeteringDbContext db)
+        {
             _db = db;
         }
 
@@ -24,9 +26,10 @@ namespace MeteringTest.Services
                 .Where(x => x.Time > from)
                 .OrderByDescending(x => x.Time)
                 .ToListAsync();
-            return new ApiUsageReport {
+            return new ApiUsageReport
+            {
                 Customer = cust,
-                Usage = usages.ToList(),
+                Usage = [.. usages],
             };
         }
     }

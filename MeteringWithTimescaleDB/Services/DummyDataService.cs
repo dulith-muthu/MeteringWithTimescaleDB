@@ -10,7 +10,7 @@ namespace MeteringTest.Services
         Task CreateDummySamplesForCustAsync(CancellationToken cancelationToken);
     }
 
-    public class DummyDataService: IDummyDataService
+    public class DummyDataService : IDummyDataService
     {
         public const string cust1 = "Cust1";
         public const string cust2 = "Cust2";
@@ -44,10 +44,20 @@ namespace MeteringTest.Services
             var sql = GetApiUsageInsertString(data1) + GetApiUsageInsertString(data2);
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<MeteringDbContext>();
-            await db.Database.ExecuteSqlRawAsync(sql, cancellationToken: cancelationToken);
+            try
+            {
+                await db.Database.ExecuteSqlRawAsync(sql, cancellationToken: cancelationToken);
+                //await db.ApiUsages.AddRangeAsync([data1, data2]);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
         }
 
-        private static string GetApiUsageInsertString(ApiUsage apiUsage) {
+        private static string GetApiUsageInsertString(ApiUsage apiUsage)
+        {
             return $@"INSERT INTO ""{nameof(MeteringDbContext.ApiUsages)}""
 (""{nameof(ApiUsage.Time)}"", ""{nameof(ApiUsage.ContextIdentifier)}"", ""{nameof(ApiUsage.CpuTime)}"")
 VALUES ('{apiUsage.Time}', '{apiUsage.ContextIdentifier}', {apiUsage.CpuTime});

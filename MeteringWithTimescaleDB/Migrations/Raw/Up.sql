@@ -21,7 +21,7 @@ GROUP BY "ContextIdentifier", time_bucket(INTERVAL '1 minute', "Time");
 
 CREATE INDEX ix_context_identifier_time_minutely ON "ApiUsageSummaryMinutely" ("ContextIdentifier", "Time" DESC);
 -- add raw data retention policy
-SELECT add_retention_policy('"ApiUsages"', INTERVAL '5 minutes');
+SELECT add_retention_policy('"ApiUsages"', INTERVAL '1 day');
 
 -- add summary data continous aggregate policy
 SELECT add_continuous_aggregate_policy('"ApiUsageSummaryMinutely"',
